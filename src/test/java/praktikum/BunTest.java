@@ -1,6 +1,6 @@
 package praktikum;
 
-import org.junit.Assert;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -27,7 +27,10 @@ public class BunTest {
     @Test
     public void createBunTest() {
         Bun bun = new Bun(bunName, bunPrice);
-        Assert.assertEquals(bunName, bun.getName());
-        Assert.assertEquals(bunPrice, bun.getPrice(), 0);
+        SoftAssertions softly = new SoftAssertions();
+
+        softly.assertThat(bun.getName()).isEqualTo(bunName);
+        softly.assertThat(bun.getPrice()).isEqualTo(bunPrice);
+        softly.assertAll();
     }
 }

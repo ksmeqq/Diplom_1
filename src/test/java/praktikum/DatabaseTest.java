@@ -1,13 +1,15 @@
 package praktikum;
 
+import org.assertj.core.api.JUnitSoftAssertions;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 public class DatabaseTest {
+    @Rule
+    public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
 
     private Database database;
 
@@ -19,52 +21,59 @@ public class DatabaseTest {
     @Test
     public void testAvailableBunsReturnsThreeBuns() {
         List<Bun> buns = database.availableBuns();
-        assertNotNull(buns);
-        assertEquals(3, buns.size());
-        assertEquals("black bun", buns.get(0).getName());
-        assertEquals(100, buns.get(0).getPrice(), 0.001);
-        assertEquals("white bun", buns.get(1).getName());
-        assertEquals(200, buns.get(1).getPrice(), 0.001);
-        assertEquals("red bun", buns.get(2).getName());
-        assertEquals(300, buns.get(2).getPrice(), 0.001);
+
+        softly.assertThat(buns).isNotNull();
+        softly.assertThat(buns).hasSize(3);
+        softly.assertThat(buns.get(0).getName()).isEqualTo("black bun");
+        softly.assertThat(buns.get(1).getName()).isEqualTo("white bun");
+        softly.assertThat(buns.get(2).getName()).isEqualTo("red bun");
+        softly.assertThat(buns.get(0).getPrice()).isEqualTo(100);
+        softly.assertThat(buns.get(1).getPrice()).isEqualTo(200);
+        softly.assertThat(buns.get(2).getPrice()).isEqualTo(300);
+        softly.assertAll();
     }
 
     @Test
     public void testAvailableIngredientsReturnsSixIngredients() {
         List<Ingredient> ingredients = database.availableIngredients();
-        assertNotNull(ingredients);
-        assertEquals(6, ingredients.size());
+
+        softly.assertThat(ingredients).isNotNull();
+        softly.assertThat(ingredients).hasSize(6);
+        softly.assertAll();
     }
 
     @Test
     public void testAvailableIngredientsContainsCorrectTypes() {
         List<Ingredient> ingredients = database.availableIngredients();
 
-        // Первые 3 - соусы
-        assertEquals(IngredientType.SAUCE, ingredients.get(0).getType());
-        assertEquals(IngredientType.SAUCE, ingredients.get(1).getType());
-        assertEquals(IngredientType.SAUCE, ingredients.get(2).getType());
+        softly.assertThat(ingredients.get(0).getType()).isEqualTo(IngredientType.SAUCE);
+        softly.assertThat(ingredients.get(1).getType()).isEqualTo(IngredientType.SAUCE);
+        softly.assertThat(ingredients.get(2).getType()).isEqualTo(IngredientType.SAUCE);
 
-        // Следующие 3 - начинки
-        assertEquals(IngredientType.FILLING, ingredients.get(3).getType());
-        assertEquals(IngredientType.FILLING, ingredients.get(4).getType());
-        assertEquals(IngredientType.FILLING, ingredients.get(5).getType());
+        softly.assertThat(ingredients.get(3).getType()).isEqualTo(IngredientType.FILLING);
+        softly.assertThat(ingredients.get(4).getType()).isEqualTo(IngredientType.FILLING);
+        softly.assertThat(ingredients.get(5).getType()).isEqualTo(IngredientType.FILLING);
+
+        softly.assertAll();
     }
 
     @Test
     public void testAvailableIngredientsContainsCorrectNamesAndPrices() {
         List<Ingredient> ingredients = database.availableIngredients();
-        assertEquals("hot sauce", ingredients.get(0).getName());
-        assertEquals(100f, ingredients.get(0).getPrice(), 0.001f);
-        assertEquals("sour cream", ingredients.get(1).getName());
-        assertEquals(200f, ingredients.get(1).getPrice(), 0.001f);
-        assertEquals("chili sauce", ingredients.get(2).getName());
-        assertEquals(300f, ingredients.get(2).getPrice(), 0.001f);
-        assertEquals("cutlet", ingredients.get(3).getName());
-        assertEquals(100f, ingredients.get(3).getPrice(), 0.001f);
-        assertEquals("dinosaur", ingredients.get(4).getName());
-        assertEquals(200f, ingredients.get(4).getPrice(), 0.001f);
-        assertEquals("sausage", ingredients.get(5).getName());
-        assertEquals(300f, ingredients.get(5).getPrice(), 0.001f);
+
+        softly.assertThat(ingredients.get(0).getName()).isEqualTo("hot sauce");
+        softly.assertThat(ingredients.get(1).getName()).isEqualTo("sour cream");
+        softly.assertThat(ingredients.get(2).getName()).isEqualTo("chili sauce");
+        softly.assertThat(ingredients.get(3).getName()).isEqualTo("cutlet");
+        softly.assertThat(ingredients.get(4).getName()).isEqualTo("dinosaur");
+        softly.assertThat(ingredients.get(5).getName()).isEqualTo("sausage");
+        softly.assertThat(ingredients.get(0).getPrice()).isEqualTo(100f);
+        softly.assertThat(ingredients.get(1).getPrice()).isEqualTo(200f);
+        softly.assertThat(ingredients.get(2).getPrice()).isEqualTo(300f);
+        softly.assertThat(ingredients.get(3).getPrice()).isEqualTo(100f);
+        softly.assertThat(ingredients.get(4).getPrice()).isEqualTo(200f);
+        softly.assertThat(ingredients.get(5).getPrice()).isEqualTo(300f);
+
+        softly.assertAll();
     }
 }

@@ -1,5 +1,7 @@
 package praktikum;
 
+import org.assertj.core.api.JUnitSoftAssertions;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -7,13 +9,15 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BurgerTest {
+    @Rule
+    public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
+
     @Mock
     Bun bun;
 
@@ -61,10 +65,11 @@ public class BurgerTest {
         Burger burger = burgerWithThreeIngredients();
         burger.moveIngredient(0, 2);
 
-        assertEquals("mayonnaise", burger.ingredients.get(0).getName());
-        assertEquals("cutlet",   burger.ingredients.get(1).getName());
-        assertEquals("ketchup",    burger.ingredients.get(2).getName());
-        assertEquals(3, burger.ingredients.size());
+        softly.assertThat(burger.ingredients.get(0).getName()).isEqualTo("mayonnaise");
+        softly.assertThat(burger.ingredients.get(1).getName()).isEqualTo("cutlet");
+        softly.assertThat(burger.ingredients.get(2).getName()).isEqualTo("ketchup");
+        softly.assertThat(burger.ingredients.size()).isEqualTo(3);
+        softly.assertAll();
     }
 
     @Test
@@ -72,9 +77,10 @@ public class BurgerTest {
         Burger burger = burgerWithThreeIngredients();
         burger.moveIngredient(2, 0);
 
-        assertEquals("cutlet",   burger.ingredients.get(0).getName());
-        assertEquals("ketchup",    burger.ingredients.get(1).getName());
-        assertEquals("mayonnaise", burger.ingredients.get(2).getName());
+        softly.assertThat(burger.ingredients.get(0).getName()).isEqualTo("cutlet");
+        softly.assertThat(burger.ingredients.get(1).getName()).isEqualTo("ketchup");
+        softly.assertThat(burger.ingredients.get(2).getName()).isEqualTo("mayonnaise");
+        softly.assertAll();
     }
 
     @Test
